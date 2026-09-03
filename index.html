@@ -9,7 +9,7 @@
 *{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}
 button,input,select,textarea{font:inherit}.shell{min-height:100vh;display:flex}.sidebar{width:270px;flex:0 0 270px;background:linear-gradient(160deg,var(--navy),var(--navy2));color:#fff;padding:22px 16px 88px;position:fixed;inset:0 auto 0 0;overflow:auto;z-index:20}
 .brand{border-bottom:1px solid rgba(255,255,255,.17);padding:5px 12px 22px;margin-bottom:18px;text-align:center;display:flex;flex-direction:column;align-items:center}.brand img{display:none;margin:0 auto;width:100%;max-width:210px;height:auto;object-fit:contain;object-position:center;border:0;background:transparent}.brand-mark{margin:0 auto;width:124px;height:124px;border:3px solid #dfa83d;border-radius:50%;display:grid;place-items:center;font:700 50px Georgia;color:#f5c457;box-shadow:inset 0 0 0 7px rgba(240,184,64,.14);box-sizing:border-box}.brand b{display:block;font:700 25px Georgia;letter-spacing:2px;color:#edbd55;margin-top:9px}.brand small{display:block;color:#d7e4fa;margin-top:5px}
-.nav{display:grid;gap:5px}.nav button{border:0;background:transparent;color:#fff;text-align:left;padding:12px 13px;border-radius:9px;cursor:pointer;font-size:15px}.nav button:hover,.nav button.active{background:linear-gradient(90deg,#fff7e9,#ffe3b2);color:#09275a;font-weight:700}.nav .ico{display:inline-block;width:31px;font-size:18px}.nav-sep{font-size:11px;letter-spacing:1.2px;color:#9fb4d6;padding:13px 13px 4px;text-transform:uppercase}.main{margin-left:270px;width:calc(100% - 270px);padding:25px 34px 82px;max-width:1700px}
+.nav{display:grid;gap:5px}.nav button{border:0;background:transparent;color:#fff;text-align:left;padding:12px 13px;border-radius:9px;cursor:pointer;font-size:15px}.nav button:hover,.nav button.active{background:linear-gradient(90deg,#fff7e9,#ffe3b2);color:#09275a;font-weight:700}.nav .ico{display:inline-block;width:31px;font-size:18px}.nav-badge{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:#dc2626;color:#fff;border-radius:999px;font-size:11px;line-height:1;padding:4px 7px;font-weight:800}.nav-sep{font-size:11px;letter-spacing:1.2px;color:#9fb4d6;padding:13px 13px 4px;text-transform:uppercase}.main{margin-left:270px;width:calc(100% - 270px);padding:25px 34px 82px;max-width:1700px}
 .topbar{display:flex;justify-content:flex-end;align-items:center;gap:10px;min-height:25px}.admin-status{display:none;padding:7px 11px;border-radius:99px;background:#fff1cf;color:#8f5900;font-size:12px;font-weight:700}.admin-status.show{display:inline-block}
 .hero{display:flex;justify-content:space-between;align-items:center;gap:25px}.hero h1{font:700 clamp(30px,4vw,54px) Georgia,serif;margin:0;color:var(--navy)}.hero h1 span{display:block;font-size:.56em;color:#b47518;margin-top:5px}.crumb{margin:20px 0 15px;color:#7180a2}
 .searchbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px 12px;max-width:900px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(19,48,96,.04)}.searchbox span{font-size:23px}.searchbox input{border:0;outline:0;width:100%;padding:12px 2px;color:var(--ink)}
@@ -64,8 +64,10 @@ button,input,select,textarea{font:inherit}.shell{min-height:100vh;display:flex}.
     <button data-page="grammar"><span class="ico"></span>Tata Bahasa</button>
     <button data-page="favorites"><span class="ico">♥</span>Favorit</button>
     <button data-page="about"><span class="ico">ⓘ</span>Tentang Kamus</button>
+    <button data-page="feedback"><span class="ico">✉</span>Kritik & Saran</button>
     <div class="nav-sep admin-only">Administrator</div>
     <button class="admin-only" data-page="dashboard"><span class="ico">▦</span>Dashboard</button>
+    <button class="admin-only" data-page="feedbackAdmin" style="position:relative"><span class="ico">✉</span>Pesan Masuk<span class="nav-badge" id="feedbackBadge" style="display:none">0</span></button>
     <button class="admin-only" data-page="words"><span class="ico">▣</span>Data Kamus</button>
     <button class="admin-only" data-page="adminCategories"><span class="ico">▤</span>Kelola Kategori</button>
     <button class="admin-only" data-page="adminGrammar"><span class="ico"></span>Kelola Tata Bahasa</button>
@@ -129,6 +131,7 @@ button,input,select,textarea{font:inherit}.shell{min-height:100vh;display:flex}.
           <div class="field"><label>Bahasa Cirebon *</label><input id="cirebon" required placeholder="Contoh: nyantri"></div>
           <div class="field"><label>Bahasa Indonesia *</label><input id="indonesia" required placeholder="Contoh: mengaji di pesantren"></div>
           <div class="field"><label>Kategori *</label><select id="categorySelect"></select></div>
+          <div class="field"><label>Jenis Kata</label><select id="wordType"><option value="">Pilih jenis kata…</option><option>Kata Benda</option><option>Kata Kerja</option><option>Kata Sifat</option><option>Kata Ganti</option><option>Kata Bilangan</option><option>Kata Keterangan</option><option>Kata Depan</option><option>Kata Sambung</option><option>Kata Seru</option><option>Kata Tanya</option><option>Ungkapan</option></select></div>
           <div class="field"><label>Sinonim</label><input id="synonym" placeholder="Pisahkan dengan koma"></div>
           <div class="field"><label>Contoh kalimat Cirebon</label><textarea id="exampleCb"></textarea></div>
           <div class="field"><label>Arti contoh kalimat</label><textarea id="exampleId"></textarea></div>
@@ -154,8 +157,24 @@ button,input,select,textarea{font:inherit}.shell{min-height:100vh;display:flex}.
   </div></section>
   <section id="favorites" class="page"><div class="card content"><div class="title-row"><h2>Kata Favorit</h2><button class="btn light" data-page="home">‹ Beranda</button></div><div id="favoriteList" class="word-list"></div></div></section>
   <section id="about" class="page"><div class="card content"><div class="title-row"><h2>Tentang Kamus</h2></div><div id="aboutContent"></div></div></section>
+  <section id="feedback" class="page"><div class="card content"><div class="title-row"><h2>Kritik &amp; Saran</h2></div>
+    <p style="color:var(--muted);margin-bottom:16px">Sampaikan masukan, kritik, atau saran kamu untuk pengembangan Kamus Bahasa Cirebon.</p>
+    <form id="feedbackForm">
+      <div class="form-grid">
+        <div class="field"><label>Nama *</label><input id="fbName" required placeholder="Nama kamu"></div>
+        <div class="field"><label>Email / No. HP *</label><input id="fbContact" required placeholder="Email atau nomor HP"></div>
+        <div class="field full"><label>Pesan *</label><textarea id="fbMessage" required placeholder="Tulis kritik atau saran kamu di sini…" style="min-height:130px"></textarea></div>
+      </div>
+      <div class="error" id="fbError"></div>
+      <div style="margin-top:16px;display:flex;gap:10px"><button class="btn" type="submit">Kirim</button><button class="btn light" type="button" id="fbCancel">Batal</button></div>
+    </form>
+  </div></section>
 
   <section id="dashboard" class="page admin-area"><div class="card content"><div class="title-row"><h2>Dashboard Admin</h2><span class="admin-tag">Administrator</span></div><div id="dashboardStats" class="admin-grid"></div><div class="usage"><b>Kontrol cepat</b><br>Gunakan Data Kamus untuk menambah, mengedit, menghapus, import CSV, dan mencari data. Semua perubahan tersimpan di browser ini.</div></div></section>
+
+  <section id="feedbackAdmin" class="page admin-area"><div class="card content"><div class="title-row"><h2>Pesan Masuk</h2><span class="admin-tag" id="feedbackCountTag">0 pesan</span></div>
+    <div id="feedbackList"></div>
+  </div></section>
 
   <section id="words" class="page admin-area"><div class="card content">
     <div class="title-row"><h2>Data Kamus</h2><div class="toolbar"><button class="btn" id="newWord">＋ Tambah Kata</button><button class="btn light" id="importCsvBtn">Import CSV</button><button class="btn light" id="exportCsvBtn">Export CSV</button><input type="file" id="csvFile" accept=".csv,text/csv" class="hidden"></div></div>
@@ -387,13 +406,13 @@ function renderFavorites(){let data=words.filter(w=>favorites.includes(w.id));$(
 function categoryPrimary(w){return categoryDirection==='cb-idn'?String(w.cb||''):String(w.idn||'')}
 function categorySecondary(w){return categoryDirection==='cb-idn'?String(w.idn||''):String(w.cb||'')}
 function renderCategories(){
- const types=categories.map(c=>c.name).filter(Boolean).sort((a,b)=>a.localeCompare(b,'id',{sensitivity:'base'}));
+ const standardTypes=['Kata Ganti','Kata Kerja','Kata Sifat','Kata Benda','Kata Keterangan','Kata Bilangan','Kata Sambung','Kata Depan','Kata Tanya','Kata Seru','Ungkapan'];const types=[...new Set([...standardTypes,...words.map(w=>String(w.wordType||'').trim()).filter(Boolean)])].sort((a,b)=>a.localeCompare(b,'id',{sensitivity:'base'}));
  const typeSelect=$('#wordTypeCategory');const letterSelect=$('#letterCategory');
- if(typeSelect){const current=typeSelect.value;typeSelect.innerHTML='<option value="">Pilih jenis kata…</option>'+types.map(t=>`<option value="${esc(t)}">${esc(t)} (${words.filter(w=>sameCat(w.cat,t)).length} kata)</option>`).join('');if(types.includes(current))typeSelect.value=current}
+ if(typeSelect){const current=typeSelect.value;typeSelect.innerHTML='<option value="">Pilih jenis kata…</option>'+types.map(t=>`<option value="${esc(t)}">${esc(t)} (${words.filter(w=>sameCat(w.wordType,t)).length} kata)</option>`).join('');if(types.includes(current))typeSelect.value=current}
  if(letterSelect){const current=letterSelect.value;letterSelect.innerHTML='<option value="">Pilih huruf awal…</option>'+Array.from({length:26},(_,i)=>String.fromCharCode(65+i)).map(letter=>`<option value="${letter}">${letter}</option>`).join('');if(current)letterSelect.value=current}
  $$('.direction-btn').forEach(b=>b.classList.toggle('active',b.dataset.direction===categoryDirection));
 }
-function showCategoryResults(kind,value){if(!value)return;let label=kind==='type'?`Jenis Kata: ${value}`:`Huruf Awal: ${value}`;let data=words.filter(w=>kind==='type'?sameCat(w.cat,value):categoryPrimary(w).trim().toLocaleUpperCase('id-ID').startsWith(value));data.sort((a,b)=>categoryPrimary(a).localeCompare(categoryPrimary(b),'id',{sensitivity:'base'}));categoryVisibleWords=data;categorySelectionLabel=label;$('#categoryResult').style.display='block';$('#categoryDetailName').textContent=label;$('#categoryDetailDesc').textContent=categoryDirection==='cb-idn'?'Menampilkan Bahasa Cirebon beserta artinya dalam Bahasa Indonesia.':'Menampilkan Bahasa Indonesia beserta padanannya dalam Bahasa Cirebon.';$('#categoryResultCount').textContent=data.length+' kata';$('#categoryDetailWords').innerHTML=data.length?data.map(w=>`<div class="word-row" data-id="${w.id}"><div><strong>${esc(categoryPrimary(w))}</strong><small>${esc(categorySecondary(w))}</small></div><span class="badge">${esc(w.cat||'Kata')}</span></div>`).join(''):'<div class="empty">Belum ada kata pada pilihan ini.</div>';$$('#categoryDetailWords .word-row').forEach(x=>x.onclick=()=>detail(+x.dataset.id));['#printCategoryPdf','#printCategoryExcel'].forEach(selector=>$(selector).disabled=!data.length);$('#categorySelectionHint').textContent=`${label} dipilih. Daftar kata ditampilkan di bawah.`}
+function showCategoryResults(kind,value){if(!value)return;let label=kind==='type'?`Jenis Kata: ${value}`:`Huruf Awal: ${value}`;let data=words.filter(w=>kind==='type'?sameCat(w.wordType,value):categoryPrimary(w).trim().toLocaleUpperCase('id-ID').startsWith(value));data.sort((a,b)=>categoryPrimary(a).localeCompare(categoryPrimary(b),'id',{sensitivity:'base'}));categoryVisibleWords=data;categorySelectionLabel=label;$('#categoryResult').style.display='block';$('#categoryDetailName').textContent=label;$('#categoryDetailDesc').textContent=categoryDirection==='cb-idn'?'Menampilkan Bahasa Cirebon beserta artinya dalam Bahasa Indonesia.':'Menampilkan Bahasa Indonesia beserta padanannya dalam Bahasa Cirebon.';$('#categoryResultCount').textContent=data.length+' kata';$('#categoryDetailWords').innerHTML=data.length?data.map(w=>`<div class="word-row" data-id="${w.id}"><div><strong>${esc(categoryPrimary(w))}</strong><small>${esc(categorySecondary(w))}</small></div><span class="badge">${esc(w.wordType||w.cat||'Kata')}</span></div>`).join(''):'<div class="empty">Belum ada kata pada pilihan ini.</div>';$$('#categoryDetailWords .word-row').forEach(x=>x.onclick=()=>detail(+x.dataset.id));['#printCategoryPdf','#printCategoryExcel'].forEach(selector=>$(selector).disabled=!data.length);$('#categorySelectionHint').textContent=`${label} dipilih. Daftar kata ditampilkan di bawah.`}
 function resetCategoryView(){categoryVisibleWords=[];categorySelectionLabel='';$('#categoryResult').style.display='none';['#printCategoryPdf','#printCategoryExcel'].forEach(selector=>$(selector).disabled=true);$('#categorySelectionHint').textContent='Pilih salah satu rolldown untuk menampilkan kata-kata sesuai kategori.'}
 function printCategoryPDF(){if(!categoryVisibleWords.length){toast('Belum ada kelompok kata untuk dicetak.');return}let primaryHeader=categoryDirection==='cb-idn'?'Bahasa Cirebon':'Bahasa Indonesia',secondaryHeader=categoryDirection==='cb-idn'?'Bahasa Indonesia':'Bahasa Cirebon',rows=categoryVisibleWords.map(w=>`<tr><td>${esc(categoryPrimary(w))}</td><td>${esc(categorySecondary(w))}</td></tr>`).join(''),printWindow=window.open('','_blank','width=900,height=700');if(!printWindow){toast('Pop-up diblokir browser. Izinkan pop-up untuk mencetak PDF.');return}printWindow.document.write(`<!doctype html><html lang="id"><head><meta charset="utf-8"><title>${esc(categorySelectionLabel)} - Kamus Bahasa Cirebon</title><style>body{font-family:Arial,sans-serif;color:#102a5c;padding:28px}h1{font-size:22px;margin:0 0 6px}p{color:#67779d;margin:0 0 18px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #cfd7e5;padding:9px 11px;text-align:left}th{background:#eef3fb}@media print{body{padding:0}}</style></head><body><h1>${esc(categorySelectionLabel)}</h1><p>Kamus Bahasa Cirebon · ${esc(categoryDirection==='cb-idn'?'Cirebon ke Indonesia':'Indonesia ke Cirebon')}</p><table><thead><tr><th>${primaryHeader}</th><th>${secondaryHeader}</th></tr></thead><tbody>${rows}</tbody></table></body></html>`);printWindow.document.close();printWindow.focus();setTimeout(()=>printWindow.print(),300)}
 function printCategoryExcel(){if(!categoryVisibleWords.length){toast('Belum ada kelompok kata untuk diekspor.');return}let primaryHeader=categoryDirection==='cb-idn'?'Bahasa Cirebon':'Bahasa Indonesia',secondaryHeader=categoryDirection==='cb-idn'?'Bahasa Indonesia':'Bahasa Cirebon',rows=categoryVisibleWords.map(w=>`<tr><td>${esc(categoryPrimary(w))}</td><td>${esc(categorySecondary(w))}</td></tr>`).join(''),sheet=`<!doctype html><html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" lang="id"><head><meta charset="utf-8"><style>table{border-collapse:collapse}th,td{border:1px solid #9aa8bd;padding:7px 10px}th{background:#dfe9f7}</style></head><body><h2>${esc(categorySelectionLabel)} - Kamus Bahasa Cirebon</h2><table><thead><tr><th>${primaryHeader}</th><th>${secondaryHeader}</th></tr></thead><tbody>${rows}</tbody></table></body></html>`,slug=categorySelectionLabel.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'kelompok-kata';download(`kamus-${slug}.xls`,'application/vnd.ms-excel;charset=utf-8','\\ufeff'+sheet);toast('File Excel berhasil dibuat.')} 
@@ -514,6 +533,67 @@ async function deleteGrammar(id){
   toast('Gagal menghapus materi: '+(err.message||err));
  }
 }
+$('#feedbackForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ $('#fbError').textContent='';
+ let name=$('#fbName').value.trim(),contact=$('#fbContact').value.trim(),message=$('#fbMessage').value.trim();
+ if(!name||!contact||!message){$('#fbError').textContent='Semua kolom wajib diisi.';return}
+ try{
+  const {error}=await sb.from('feedback').insert({name,contact,message});
+  if(error)throw error;
+  $('#feedbackForm').reset();
+  toast('Terima kasih! Kritik dan saran kamu sudah terkirim.');
+  show('home');
+  refreshFeedbackBadge();
+ }catch(err){
+  $('#fbError').textContent='Gagal mengirim pesan: '+(err.message||err);
+ }
+});
+$('#fbCancel').onclick=()=>{$('#feedbackForm').reset();$('#fbError').textContent='';show('home')};
+async function renderFeedbackAdmin(){
+ const list=$('#feedbackList');
+ list.innerHTML='<p style="color:var(--muted)">Memuat pesan…</p>';
+ try{
+  const {data,error}=await sb.from('feedback').select('*').order('created_at',{ascending:false});
+  if(error)throw error;
+  $('#feedbackCountTag').textContent=`${data.length} pesan`;
+  if(!data.length){list.innerHTML='<p style="color:var(--muted)">Belum ada pesan masuk.</p>';return}
+  list.innerHTML=data.map(f=>`<div class="card stat" style="margin-bottom:12px;position:relative">
+    ${f.is_read?'':'<span class="nav-badge" style="position:absolute;left:auto;right:16px;top:16px;transform:none">Baru</span>'}
+    <b>${esc(f.name)}</b><div style="color:var(--muted);font-size:14px;margin:2px 0 10px">${esc(f.contact)} · ${new Date(f.created_at).toLocaleString('id-ID')}</div>
+    <p style="white-space:pre-wrap">${esc(f.message)}</p>
+    <button class="btn light small" style="margin-top:10px" onclick="deleteFeedback(${f.id})">Hapus</button>
+  </div>`).join('');
+  const unreadIds=data.filter(f=>!f.is_read).map(f=>f.id);
+  if(unreadIds.length){
+   await sb.from('feedback').update({is_read:true}).in('id',unreadIds);
+   refreshFeedbackBadge();
+  }
+ }catch(err){
+  list.innerHTML='<p style="color:var(--muted)">Gagal memuat pesan: '+(err.message||err)+'</p>';
+ }
+}
+async function deleteFeedback(id){
+ if(!confirm('Hapus pesan ini?'))return;
+ try{
+  const {error}=await sb.from('feedback').delete().eq('id',id);
+  if(error)throw error;
+  renderFeedbackAdmin();
+  toast('Pesan dihapus.');
+ }catch(err){
+  toast('Gagal menghapus pesan: '+(err.message||err));
+ }
+}
+async function refreshFeedbackBadge(){
+ if(!admin){$('#feedbackBadge').style.display='none';return}
+ try{
+  const {count,error}=await sb.from('feedback').select('*',{count:'exact',head:true}).eq('is_read',false);
+  if(error)throw error;
+  const badge=$('#feedbackBadge');
+  if(count>0){badge.textContent=count>99?'99+':count;badge.style.display='inline-block'}
+  else badge.style.display='none';
+ }catch(err){}
+}
 function closeModal(){$('#genericModal').classList.remove('open')}
 function loadSettingsForm(){
  $('#setAppName').value=settings.appName;$('#setTitle').value=settings.title;$('#setSubtitle').value=settings.subtitle;$('#setRegion').value=settings.region;$('#setManager').value=settings.manager;$('#setDescription').value=settings.description;
@@ -534,7 +614,7 @@ function renderStats(){let cats=categories.map(c=>({name:c.name,n:words.filter(w
 function renderAll(){applySettings();renderHome($('#search').value||'');renderCategories();renderGrammar();renderFavorites();renderWordTable($('#adminWordSearch')?.value||'');renderCategoryTable();renderGrammarAdmin();renderDashboard();renderStats();loadSettingsForm();updateAdminUI()}
 function highlightNav(){let navAlias={detail:'home',editor:'words'};let target=navAlias[currentSection]||currentSection;$('#userNav').querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===target))}
 function updateAdminUI(){ $$('.admin-only').forEach(x=>x.style.display=admin?'':'none');$('#adminStatus').classList.toggle('show',admin);highlightNav(); }
-function show(page){if(['dashboard','words','adminCategories','adminGrammar','settings','backup','stats','editor'].includes(page)&&!admin){openLogin();return}currentSection=page;$$('.page').forEach(p=>p.classList.remove('active'));$('#'+page)?.classList.add('active');if(page==='category'){renderCategories();resetCategoryView()}let labels={home:'',detail:' › Detail Kata',editor:' › Kelola Kata',grammar:' › Tata Bahasa',category:' › Kategori',favorites:' › Favorit',about:' › Tentang Kamus',dashboard:' › Dashboard',words:' › Data Kamus',adminCategories:' › Kelola Kategori',adminGrammar:' › Kelola Tata Bahasa',settings:' › Pengaturan',backup:' › Backup & Restore',stats:' › Statistik'};$('#crumbEnd').textContent=labels[page]||'';$('#globalSearchBox').style.display=['home'].includes(page)?'flex':'none';highlightNav();closeMobileNav();window.scrollTo(0,0)}
+function show(page){if(['dashboard','words','adminCategories','adminGrammar','settings','backup','stats','editor','feedbackAdmin'].includes(page)&&!admin){openLogin();return}currentSection=page;$$('.page').forEach(p=>p.classList.remove('active'));$('#'+page)?.classList.add('active');if(page==='category'){renderCategories();resetCategoryView()}if(page==='feedbackAdmin'){renderFeedbackAdmin()}let labels={home:'',detail:' › Detail Kata',editor:' › Kelola Kata',grammar:' › Tata Bahasa',category:' › Kategori',favorites:' › Favorit',about:' › Tentang Kamus',feedback:' › Kritik & Saran',dashboard:' › Dashboard',words:' › Data Kamus',adminCategories:' › Kelola Kategori',adminGrammar:' › Kelola Tata Bahasa',settings:' › Pengaturan',backup:' › Backup & Restore',stats:' › Statistik',feedbackAdmin:' › Pesan Masuk'};$('#crumbEnd').textContent=labels[page]||'';$('#globalSearchBox').style.display=['home'].includes(page)?'flex':'none';highlightNav();closeMobileNav();window.scrollTo(0,0)}
 function openLogin(){$('#loginError').textContent='';$('#loginModal').classList.add('open');setTimeout(()=>$('#username').focus(),50)}
 function csvEscape(v){v=String(v??'');return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
 function exportCSV(){let headers=['kata','arti','kategori','jenisKata','pelafalan','sinonim','antonim','contoh','terjemahan','catatan'];let rows=words.map(w=>[w.cb,w.idn,w.cat,w.wordType,w.pronunciation,w.syn,w.antonym,w.ec,w.ei,w.note]);let out=[headers,...rows].map(r=>r.map(csvEscape).join(',')).join('\r\n');download('kamus-cirebon.csv','text/csv;charset=utf-8',out)}
@@ -673,6 +753,7 @@ $('#newPasswordForm').onsubmit=async e=>{
   toast('Password berhasil diubah. Kamu sudah masuk sebagai admin.');
   admin=true;updateAdminUI();await loadFromSupabase();renderAll();show('dashboard');
   history.replaceState(null,'',window.location.pathname);
+  refreshFeedbackBadge();
  }catch(err){
   $('#newPasswordError').textContent='Gagal menyimpan password: '+(err.message||err);
  }
@@ -697,6 +778,7 @@ $('#loginForm').onsubmit=async e=>{
   renderAll();
   show('dashboard');
   toast('Selamat datang, Administrator.');
+  refreshFeedbackBadge();
  }catch(err){
   $('#loginError').textContent='Terjadi kesalahan saat login.';
  }
@@ -704,7 +786,7 @@ $('#loginForm').onsubmit=async e=>{
 $('#genericModal').addEventListener('click',e=>{if(e.target.id==='genericModal')closeModal()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('#loginModal').classList.remove('open');$('#forgotPasswordModal').classList.remove('open');closeModal();closeMobileNav()}});
 $('#logoutBtn')?.addEventListener('click',logout);
-async function logout(){await sb.auth.signOut();admin=false;updateAdminUI();show('home');toast('Anda telah keluar dari mode admin.')}
+async function logout(){await sb.auth.signOut();admin=false;updateAdminUI();$('#feedbackBadge').style.display='none';show('home');toast('Anda telah keluar dari mode admin.')}
 const logoutBtn=document.createElement('button');logoutBtn.className='admin-only btn danger small';logoutBtn.textContent='Keluar';logoutBtn.style.position='fixed';logoutBtn.style.right='15px';logoutBtn.style.top='10px';logoutBtn.style.zIndex='30';logoutBtn.onclick=logout;document.body.appendChild(logoutBtn);
 
 (async function init(){
@@ -714,6 +796,7 @@ const logoutBtn=document.createElement('button');logoutBtn.className='admin-only
  renderAll();
  updateAdminUI();
  show(admin?'dashboard':'home');
+ refreshFeedbackBadge();
 })();
 </script>
 </body>
