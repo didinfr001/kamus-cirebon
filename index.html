@@ -376,19 +376,39 @@ function normalizeWord(w){
 }
 function persistAll(){save(KEY.favorites,favorites);save(KEY.history,history)}
 function setFavicon(dataUrl){
- const old=document.getElementById('faviconLink');
- if(old)old.remove();
- const link=document.createElement('link');
- link.id='faviconLink';
- link.rel='icon';
- if(dataUrl){
-  const m=/^data:([^;]+);/.exec(dataUrl);
-  link.type=m?m[1]:'image/png';
-  link.href=dataUrl;
- }else{
-  link.href='';
+ if(!dataUrl){
+  const old=document.getElementById('faviconLink');
+  if(old)old.remove();
+  const link=document.createElement('link');
+  link.id='faviconLink';link.rel='icon';link.href='';
+  document.head.appendChild(link);
+  return;
  }
- document.head.appendChild(link);
+ const img=new Image();
+ img.onload=()=>{
+  const size=64;
+  const canvas=document.createElement('canvas');
+  canvas.width=size;canvas.height=size;
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,size,size);
+  const scale=Math.min(size/img.width,size/img.height);
+  const w=img.width*scale,h=img.height*scale;
+  ctx.drawImage(img,(size-w)/2,(size-h)/2,w,h);
+  const small=canvas.toDataURL('image/png');
+  const old=document.getElementById('faviconLink');
+  if(old)old.remove();
+  const link=document.createElement('link');
+  link.id='faviconLink';link.rel='icon';link.type='image/png';link.href=small;
+  document.head.appendChild(link);
+ };
+ img.onerror=()=>{
+  const old=document.getElementById('faviconLink');
+  if(old)old.remove();
+  const link=document.createElement('link');
+  link.id='faviconLink';link.rel='icon';link.href='';
+  document.head.appendChild(link);
+ };
+ img.src=dataUrl;
 }
 function applySettings(){
  document.documentElement.style.setProperty('--navy',settings.primary);document.documentElement.style.setProperty('--navy2',settings.secondary);
