@@ -363,6 +363,7 @@ let grammar=defaultGrammar.map(g=>({...g}));
 let settings={...defaultSettings};
 let favorites=read(KEY.favorites,[]);
 let history=read(KEY.history,[]);
+let lastFaviconApplied=null;
 let admin=false,editing=null,currentQuery='',pageSize=10,currentPage=1,currentSection='home',categoryDirection='cb-idn',categoryVisibleWords=[],categorySelectionLabel='';
 
 function save(key,val){localStorage.setItem(key,JSON.stringify(val))}
@@ -375,11 +376,19 @@ function normalizeWord(w){
 }
 function persistAll(){save(KEY.favorites,favorites);save(KEY.history,history)}
 function setFavicon(dataUrl){
- const link=$('#faviconLink');
- if(!dataUrl){link.removeAttribute('type');link.href='';return}
- const m=/^data:([^;]+);/.exec(dataUrl);
- link.type=m?m[1]:'image/png';
- link.href=dataUrl;
+ const old=document.getElementById('faviconLink');
+ if(old)old.remove();
+ const link=document.createElement('link');
+ link.id='faviconLink';
+ link.rel='icon';
+ if(dataUrl){
+  const m=/^data:([^;]+);/.exec(dataUrl);
+  link.type=m?m[1]:'image/png';
+  link.href=dataUrl;
+ }else{
+  link.href='';
+ }
+ document.head.appendChild(link);
 }
 function applySettings(){
  document.documentElement.style.setProperty('--navy',settings.primary);document.documentElement.style.setProperty('--navy2',settings.secondary);
@@ -392,7 +401,7 @@ function applySettings(){
  $('#infoDialect').textContent=settings.subtitle||'Arjawinangun';
  $('#aboutContent').innerHTML='<h3>'+esc(settings.appName)+'</h3>'+(settings.aboutHeadline?'<p style="color:var(--muted);font-style:italic">'+nl2br(settings.aboutHeadline)+'</p>':'')+'<p>'+nl2br(settings.description)+'</p>'+(settings.aboutHistory?'<h4 style="margin-bottom:6px">Sejarah &amp; Latar Belakang</h4><p>'+nl2br(settings.aboutHistory)+'</p>':'')+'<p><b>Wilayah:</b> '+esc(settings.region)+'</p><p><b>Pengelola:</b> '+esc(settings.manager)+'</p>'+(settings.aboutContact?'<p><b>Kontak:</b> '+nl2br(settings.aboutContact)+'</p>':'')+(settings.aboutCredit?'<p><b>Kredit / Referensi:</b> '+nl2br(settings.aboutCredit)+'</p>':'');
  $('#footerText').textContent=[settings.copyright||'©',settings.year||'',settings.appName||'Kamus Bahasa Cirebon',settings.footerExtra?'· '+settings.footerExtra:'',settings.creator?'· by. '+settings.creator:''].filter(Boolean).join(' ');
- if(settings.logo){$('#brandMark').style.display='none';$('#brandLogo').style.display='block';$('#brandLogo').src=settings.logo;$('#logoPreview').src=settings.logo;$('#brandName').style.display='none';$('#brandSub').style.display='none';setFavicon(settings.logo)}else{$('#brandMark').style.display='grid';$('#brandLogo').style.display='none';$('#logoPreview').src='';$('#brandName').style.display='block';$('#brandSub').style.display='block'}
+ if(settings.logo){$('#brandMark').style.display='none';$('#brandLogo').style.display='block';$('#brandLogo').src=settings.logo;$('#logoPreview').src=settings.logo;$('#brandName').style.display='none';$('#brandSub').style.display='none';if(settings.logo!==lastFaviconApplied){setFavicon(settings.logo);lastFaviconApplied=settings.logo}}else{$('#brandMark').style.display='grid';$('#brandLogo').style.display='none';$('#logoPreview').src='';$('#brandName').style.display='block';$('#brandSub').style.display='block'}
  $('#homeStats').style.display=settings.showStats==='no'?'none':'grid';
 }
 async function saveSettings(){
