@@ -845,9 +845,14 @@ async function logout(){await sb.auth.signOut();admin=false;updateAdminUI();$('#
 const logoutBtn=document.createElement('button');logoutBtn.className='admin-only btn danger small';logoutBtn.textContent='Keluar';logoutBtn.style.position='fixed';logoutBtn.style.right='15px';logoutBtn.style.top='10px';logoutBtn.style.zIndex='30';logoutBtn.onclick=logout;document.body.appendChild(logoutBtn);
 
 (async function init(){
- renderAll();
- await checkSession();
- await loadFromSupabase();
+ $('#wordList').innerHTML='<div class="empty">Memuat data…</div>';
+ $('#homeStats').innerHTML='';
+ try{
+  await checkSession();
+  await loadFromSupabase();
+ }catch(err){
+  console.error('Gagal memuat data awal:',err);
+ }
  renderAll();
  updateAdminUI();
  show(admin?'dashboard':'home');
